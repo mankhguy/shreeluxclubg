@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#12101a" />
+  <title>Sign up / Log in - ShreeLuxClubG</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 0%, #241a37 0%, #12101a 60%);
+      color: #f4f1ea;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px 40px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(28, 24, 40, 0.92);
+      border: 1px solid rgba(247, 201, 72, 0.18);
+      border-radius: 18px;
+      padding: 26px 22px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+    .brand {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: linear-gradient(90deg, #f7c948, #d4a017);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .subtitle {
+      text-align: center;
+      color: #a9a3bd;
+      font-size: 13px;
+      margin: 6px 0 20px;
+    }
+    .tabs {
+      display: flex;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+    .tabs button {
+      flex: 1;
+      border: 0;
+      background: transparent;
+      color: #a9a3bd;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 0;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tabs button.active {
+      background: linear-gradient(90deg, #f7c948, #d4a017);
+      color: #241a10;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      color: #a9a3bd;
+      margin: 14px 0 6px;
+    }
+    .phone-wrap {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 11px;
+      overflow: hidden;
+    }
+    .phone-wrap .cc {
+      padding: 13px 10px 13px 14px;
+      color: #d4c9a8;
+      font-size: 15px;
+      border-right: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    input {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.05);
+      color: #f4f1ea;
+      border-radius: 11px;
+      padding: 13px 14px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .phone-wrap input {
+      border: 0;
+      background: transparent;
+      border-radius: 0;
+      letter-spacing: 1px;
+    }
+    input:focus { border-color: rgba(247, 201, 72, 0.6); }
+    .phone-wrap:focus-within { border-color: rgba(247, 201, 72, 0.6); }
+    .btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px 0;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #f7c948, #d4a017);
+      color: #241a10;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .msg {
+      margin-top: 16px;
+      font-size: 13px;
+      line-height: 1.45;
+      border-radius: 10px;
+      padding: 11px 13px;
+      display: none;
+    }
+    .msg.show { display: block; }
+    .msg.error { background: rgba(220, 76, 76, 0.14); color: #ff9b9b; border: 1px solid rgba(220, 76, 76, 0.3); }
+    .msg.ok { background: rgba(76, 200, 120, 0.14); color: #93e7b4; border: 1px solid rgba(76, 200, 120, 0.3); }
+    .hidden { display: none !important; }
+    .account { text-align: center; }
+    .account .who { font-size: 15px; margin: 4px 0 20px; color: #f4f1ea; }
+    .account .who b { color: #f7c948; }
+    .links { text-align: center; margin-top: 18px; font-size: 13px; }
+    .links a { color: #d4c9a8; text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    .hint { font-size: 11.5px; color: #7d7793; margin-top: 7px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">ShreeLuxClubG</div>
+    <p class="subtitle">Sign up with your mobile number in seconds</p>
+
+    <div id="authView">
+      <div class="tabs">
+        <button id="tabLogin" type="button" class="active">Log in</button>
+        <button id="tabRegister" type="button">Register</button>
+      </div>
+
+      <form id="form" autocomplete="on" novalidate>
+        <label for="phone">Mobile number</label>
+        <div class="phone-wrap">
+          <span class="cc">+91</span>
+          <input id="phone" name="phone" type="tel" inputmode="numeric" maxlength="13"
+                 placeholder="10 digit number" autocomplete="tel-national" required />
+        </div>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Minimum 8 characters"
+               autocomplete="current-password" required />
+
+        <div id="confirmWrap" class="hidden">
+          <label for="confirm">Confirm password</label>
+          <input id="confirm" name="confirm" type="password" placeholder="Re-enter password"
+                 autocomplete="new-password" />
+        </div>
+
+        <button id="submit" type="submit" class="btn">Log in</button>
+        <div id="msg" class="msg"></div>
+      </form>
+
+      <p class="links"><a href="/">Back to home</a></p>
+    </div>
+
+    <div id="accountView" class="account hidden">
+      <p class="who">You are logged in as <b id="accountPhone"></b></p>
+      <button id="logout" type="button" class="btn">Log out</button>
+      <p class="links"><a href="/">Go to home</a></p>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var TOKEN_KEY = "slc_access_token";
+      var REFRESH_KEY = "slc_refresh_token";
+      var PHONE_KEY = "slc_phone";
+
+      var mode = "login";
+      var authView = document.getElementById("authView");
+      var accountView = document.getElementById("accountView");
+      var tabLogin = document.getElementById("tabLogin");
+      var tabRegister = document.getElementById("tabRegister");
+      var form = document.getElementById("form");
+      var phoneInput = document.getElementById("phone");
+      var passwordInput = document.getElementById("password");
+      var confirmWrap = document.getElementById("confirmWrap");
+      var confirmInput = document.getElementById("confirm");
+      var submitBtn = document.getElementById("submit");
+      var msg = document.getElementById("msg");
+      var accountPhone = document.getElementById("accountPhone");
+      var logoutBtn = document.getElementById("logout");
+
+      function showMessage(text, type) {
+        msg.textContent = text;
+        msg.className = "msg show " + (type || "error");
+      }
+
+      function clearMessage() {
+        msg.className = "msg";
+        msg.textContent = "";
+      }
+
+      function setMode(next) {
+        mode = next;
+        var isRegister = mode === "register";
+        tabLogin.classList.toggle("active", !isRegister);
+        tabRegister.classList.toggle("active", isRegister);
+        submitBtn.textContent = isRegister ? "Create account" : "Log in";
+        confirmWrap.classList.toggle("hidden", !isRegister);
+        passwordInput.setAttribute("autocomplete", isRegister ? "new-password" : "current-password");
+        clearMessage();
+      }
+
+      function showAccount(phone) {
+        accountPhone.textContent = phone ? "+" + phone : "";
+        authView.classList.add("hidden");
+        accountView.classList.remove("hidden");
+      }
+
+      function saveSession(payload) {
+        if (!payload || !payload.session) return;
+        try {
+          localStorage.setItem(TOKEN_KEY, payload.session.access_token);
+          localStorage.setItem(REFRESH_KEY, payload.session.refresh_token);
+          if (payload.user && payload.user.phone) {
+            localStorage.setItem(PHONE_KEY, payload.user.phone);
+          }
+        } catch (err) { /* storage may be blocked; session just won't persist */ }
+      }
+
+      function clearSession() {
+        try {
+          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(REFRESH_KEY);
+          localStorage.removeItem(PHONE_KEY);
+        } catch (err) { /* ignore */ }
+      }
+
+      async function postJson(url, body) {
+        var res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        var data = null;
+        try { data = await res.json(); } catch (err) { data = null; }
+        return { ok: res.ok, status: res.status, data: data };
+      }
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        clearMessage();
+
+        var national = phoneInput.value.replace(/\D/g, "").replace(/^0+/, "");
+        if (national.length === 12 && national.indexOf("91") === 0) national = national.slice(2);
+        if (!/^[6-9]\d{9}$/.test(national)) {
+          showMessage("Enter a valid 10 digit mobile number.");
+          phoneInput.focus();
+          return;
+        }
+
+        if (passwordInput.value.length < 8) {
+          showMessage("Password must be at least 8 characters.");
+          passwordInput.focus();
+          return;
+        }
+
+        if (mode === "register" && passwordInput.value !== confirmInput.value) {
+          showMessage("Both passwords must match.");
+          confirmInput.focus();
+          return;
+        }
+
+        submitBtn.disabled = true;
+        clearMessage();
+
+        try {
+          var url = mode === "register" ? "/api/auth/signup" : "/api/auth/login";
+          var result = await postJson(url, { phone: national, password: passwordInput.value });
+
+          if (!result.ok) {
+            var message = (result.data && result.data.error) || "Something went wrong. Please try again.";
+            if (mode === "register" && result.status === 409) message = message + " Please log in instead.";
+            showMessage(message);
+            return;
+          }
+
+          if (mode === "register" && result.data && !result.data.session) {
+            setMode("login");
+            showMessage("Account created. Please log in with your mobile number and password.", "ok");
+            return;
+          }
+
+          saveSession(result.data);
+          var phone = (result.data && result.data.user && result.data.user.phone) || national;
+          showMessage(mode === "register" ? "Account created. You are logged in." : "Logged in successfully.", "ok");
+          showAccount(phone);
+        } catch (err) {
+          showMessage("Network error. Please check your connection and try again.");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+
+      tabLogin.addEventListener("click", function () { setMode("login"); });
+      tabRegister.addEventListener("click", function () { setMode("register"); });
+
+      logoutBtn.addEventListener("click", function () {
+        clearSession();
+        accountView.classList.add("hidden");
+        authView.classList.remove("hidden");
+        passwordInput.value = "";
+        confirmInput.value = "";
+        setMode("login");
+      });
+
+      phoneInput.addEventListener("input", function () {
+        phoneInput.value = phoneInput.value.replace(/\D/g, "").slice(0, 10);
+      });
+
+      try {
+        var existing = localStorage.getItem(PHONE_KEY);
+        if (existing && localStorage.getItem(TOKEN_KEY)) showAccount(existing);
+      } catch (err) { /* ignore */ }
+
+      if (location.hash === "#register") setMode("register");
+    })();
+  </script>
+</body>
+</html>

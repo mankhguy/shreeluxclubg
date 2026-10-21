@@ -1,0 +1,16 @@
+{
+  "name": "ShreeLuxClubG",
+  "short_name": "ShreeLuxClubG",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#171321",
+  "theme_color": "#171321",
+  "icons": [
+    {
+      "src": "/assets/svg/shreeluxclubg.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
